@@ -1,0 +1,6 @@
+policy_id,member_id,plan_name,effective_date,expiration_date,status,copay
+P001,M001,Silver Care,2026-01-01,2026-12-31,Active,25
+P002,M002,Standard Care,2025-01-01,2025-12-31,Expired,30
+P003,M003,Silver Care,2026-01-01,2026-12-31,Active,25
+P004,M004,Gold Care,2026-01-01,2026-12-31,Active,15
+P005,M005,Gold Care,2026-01-01,2026-12-31,Active,15

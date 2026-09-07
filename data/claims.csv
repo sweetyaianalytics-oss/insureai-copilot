@@ -1,0 +1,6 @@
+claim_id,member_id,policy_id,service_date,claim_type,claim_amount,diagnosis_code,procedure_code,required_document_missing,duplicate_claim_flag,expected_case
+C001,M001,P001,2026-07-10,Office Visit,180.0,J06.9,99213,No,No,PASS
+C002,M002,P002,2026-03-15,Office Visit,220.0,M54.50,99213,No,No,ELIGIBILITY_FLAG
+C003,M003,P003,2026-06-22,Diagnostic Test,650.0,R53.83,80053,Yes,No,MISSING_INFO_FLAG
+C004,M004,P004,2026-05-18,Specialist Visit,420.0,Z00.00,99215,No,No,CODE_REVIEW_FLAG
+C005,M005,P005,2026-07-02,Office Visit,350.0,I10,99214,No,Yes,ANOMALY_FLAG

@@ -1,0 +1,22 @@
+InsureAI Copilot - Synthetic Claim Audit Rules
+Educational Prototype Only
+
+These rules are created only for this student capstone. They are NOT the rules of any real insurance company.
+
+Rule 1 - Eligibility
+Flag a claim if the service date is before the policy effective date or after the policy expiration date.
+
+Rule 2 - Missing Information
+If required information or a required document is missing, send the claim for human review.
+
+Rule 3 - Code Review
+If diagnosis and procedure information appears inconsistent based on the prototype test rules, send the claim for human review.
+
+Rule 4 - Duplicate / Anomaly Review
+If a duplicate or unusual claim pattern is detected, flag the claim for human audit.
+
+Rule 5 - Human-in-the-Loop
+The AI assistant does not make the final payment or denial decision. A human reviewer makes the final review decision.
+
+Rule 6 - Explainability
+Every flagged claim should show the reason for the flag and the source/rule used.

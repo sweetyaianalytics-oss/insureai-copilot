@@ -1,0 +1,9 @@
+pandas
+pytest
+streamlit
+fastapi
+uvicorn
+openai
+python-dotenv
+faiss-cpu
+mcp>=1.28,<2
