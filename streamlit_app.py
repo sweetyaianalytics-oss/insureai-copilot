@@ -103,6 +103,67 @@ claim = pd.Series(claim_data, dtype=object)
 
 
 # ---------------------------------------------------------
+# LIVE DASHBOARD SUMMARY (computed from synthetic claim records)
+# ---------------------------------------------------------
+
+def summarize_claims(ids):
+    """Summarize the five demo claims without changing any review decisions."""
+    total = passed = flagged = review_required = 0
+    for claim_id in ids:
+        record = get_claim(claim_id)
+        if record is None:
+            continue
+        total += 1
+        eligibility = check_member_eligibility(
+            member_id=record["member_id"],
+            policy_id=record["policy_id"],
+            service_date=record["service_date"],
+        )
+        if not eligibility["eligible"]:
+            flagged += 1
+            review_required += 1
+            continue
+        policy = review_policy(
+            member_id=record["member_id"], policy_id=record["policy_id"]
+        )
+        if policy["status"] != "PASS":
+            flagged += 1
+            review_required += 1
+            continue
+        result = audit_claim(record)
+        if result["status"] == "PASS":
+            passed += 1
+        else:
+            flagged += 1
+            review_required += 1
+    return total, passed, flagged, review_required
+
+
+total_claims, passed_claims, flagged_claims, review_required_claims = summarize_claims(claim_ids)
+
+st.subheader("Claims Overview")
+metric_left, metric_right = st.columns(2)
+with metric_left:
+    st.metric("Total Claims", total_claims)
+with metric_right:
+    st.metric("Passed Checks", passed_claims)
+metric_left, metric_right = st.columns(2)
+with metric_left:
+    st.metric("Flagged Claims", flagged_claims)
+with metric_right:
+    st.metric("Review Required", review_required_claims)
+
+st.markdown(
+    '<div style="background:#192D3B;border:1px solid #284454;border-radius:14px;'
+    'padding:16px 20px;margin:12px 0 22px;">'
+    '<div style="font-weight:700;color:#F2FAFB;font-size:18px;">Claim Review</div>'
+    '<div style="color:#A8BDC9;margin-top:7px;">Select a synthetic claim below to see '
+    'eligibility, policy checks, audit findings, retrieved rules and human review.</div>'
+    '</div>',
+    unsafe_allow_html=True,
+)
+
+# ---------------------------------------------------------
 # CLAIM DETAILS
 # ---------------------------------------------------------
 
@@ -217,6 +278,20 @@ if eligibility_result["eligible"]:
         st.subheader("3. Claim Audit")
 
         audit_result = audit_claim(claim)
+
+        review_status = "Passed Checks" if audit_result["status"] == "PASS" else "Needs Review"
+        st.markdown(
+            f'<div style="background:#192D3B;border:1px solid #284454;'
+            f'border-radius:14px;padding:15px 20px;margin:12px 0;">'
+            f'<strong style="color:#F2FAFB;">Claim {selected_claim_id}</strong>'
+            f'<span style="float:right;color:{"#5DE1BE" if audit_result["status"] == "PASS" else "#F4BF65"};'
+            f'font-weight:700;">{review_status}</span>'
+            f'<div style="color:#A8BDC9;margin-top:8px;">'
+            f'✓ Eligibility &amp; policy checks complete · '
+            f'{"✓ No audit flags" if audit_result["status"] == "PASS" else "⚠ Audit findings require human review"}'
+            f'</div></div>',
+            unsafe_allow_html=True,
+        )
 
 
         # ---------------------------------------------
