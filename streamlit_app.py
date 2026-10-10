@@ -27,109 +27,28 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-
-/* Main app background */
-.stApp {
-    background: #f7f9fc;
-}
-
-/* Main page spacing */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-}
-
-/* Section headings */
-.stApp h1,
-.stApp h2,
-.stApp h3 {
-    font-family: Arial, sans-serif;
-    color: #17324d;
-}
-
-/* Normal text */
-.stApp p,
-.stApp label {
-    color: #243447;
-}
-
-/* Select box */
-[data-baseweb="select"] > div {
-    border-radius: 10px;
-}
-
-/* Keep select-box text readable */
-[data-baseweb="select"] span {
-    color: white !important;
-}
-
-/* Buttons */
-.stButton > button {
-    border-radius: 8px;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-}
-
-/* Text area */
-textarea {
-    border-radius: 10px !important;
-}
-
-/* Alert/status boxes */
-[data-testid="stAlert"] {
-    border-radius: 10px;
-}
-
-/* Divider */
-hr {
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-/* Claim detail cards */
-.claim-card {
-    background: white;
-    border: 1px solid #e3eaf2;
-    border-radius: 14px;
-    padding: 1.1rem 1rem 0.8rem;
-    box-shadow: 0 4px 12px rgba(23, 50, 77, 0.08);
-    height: 100%;
-}
-
-.claim-card h4 {
-    margin: 0 0 0.9rem 0;
-    color: #17324d;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.claim-card .detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #edf2f7;
-}
-
-.claim-card .detail-row:last-child {
-    border-bottom: none;
-}
-
-.claim-card .label {
-    color: #5c6878;
-    font-size: 0.92rem;
-    font-weight: 600;
-}
-
-.claim-card .value {
-    color: #1f2d3d;
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-align: right;
-    overflow-wrap: anywhere;
-}
-
+.stApp, [data-testid="stAppViewContainer"] {background:#0D1927;color:#EAF4F6;}
+.block-container {padding-top:1.5rem;padding-bottom:3rem;max-width:1200px;}
+.stApp h1,.stApp h2,.stApp h3,.stApp h4 {color:#F2FAFB;font-family:Arial,sans-serif;}
+.stApp p,.stApp label,.stApp span {color:inherit;}
+[data-testid="stMarkdownContainer"] p {color:#E0EBF0;}
+[data-testid="stCaptionContainer"] {color:#A8BDC9;}
+[data-testid="stVerticalBlockBorderWrapper"] {border-radius:14px;}
+[data-baseweb="select"] > div,textarea,input {background:#192D3B!important;color:#F3FAFB!important;border-radius:10px!important;}
+[data-baseweb="select"] span {color:#F3FAFB!important;}
+.stButton > button {background:#167C70;color:white;border:1px solid #2AA995;border-radius:10px;font-weight:650;padding:.5rem 1rem;}
+.stButton > button:hover {background:#209A89;color:white;border-color:#5DE1BE;}
+[data-testid="stAlert"] {border-radius:12px;}
+[data-testid="stMetric"] {background:#192D3B;padding:16px;border-radius:14px;border:1px solid #284454;}
+[data-testid="stMetricLabel"],[data-testid="stMetricValue"] {color:#F2FAFB;}
+hr {border-color:#284454;margin:1.3rem 0;}
+.claim-card {background:#192D3B;border:1px solid #284454;border-radius:14px;padding:1.1rem 1rem .8rem;height:100%;box-shadow:0 4px 16px rgba(0,0,0,.12);}
+.claim-card h4 {margin:0 0 .9rem;color:#F2FAFB;font-size:1.08rem;font-weight:700;}
+.claim-card .detail-row {display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.5rem 0;border-bottom:1px solid #284454;}
+.claim-card .detail-row:last-child {border-bottom:none;}
+.claim-card .label {color:#A9BDCB;font-size:.9rem;font-weight:600;}
+.claim-card .value {color:#F2FAFB;font-size:.92rem;font-weight:700;text-align:right;overflow-wrap:anywhere;}
+@media(max-width:640px){.block-container{padding-left:1rem;padding-right:1rem}.claim-card{margin-bottom:12px}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -140,10 +59,15 @@ hr {
 
 st.markdown(
     """
-<div style="padding:18px 22px; border-radius:12px; background:#17324d; margin-bottom:22px;">
-<h1 style="color:white; margin:0; font-size:32px;">🛡️ InsureAI Copilot</h1>
-<p style="color:white; margin:7px 0 0 0; font-size:16px;">AI-Assisted Health Insurance Claims Review</p>
-<p style="color:#dbe7f0; margin:5px 0 0 0; font-size:13px;">Synthetic-data student prototype with human-in-the-loop review</p>
+<div style="padding:20px 22px;border-radius:16px;background:#192D3B;border:1px solid #284454;margin-bottom:22px;">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span style="font-size:30px;">🛡️</span>
+    <div>
+      <h1 style="color:#F2FAFB;margin:0;font-size:30px;">InsureAI Copilot</h1>
+      <p style="color:#5DE1BE;margin:5px 0 0;font-size:14px;font-weight:600;">AI Assists. Humans Decide.</p>
+    </div>
+  </div>
+  <p style="color:#A8BDC9;margin:14px 0 0;font-size:13px;">AI-Assisted Health Insurance Claims Review · Synthetic-data prototype</p>
 </div>
 """,
     unsafe_allow_html=True
