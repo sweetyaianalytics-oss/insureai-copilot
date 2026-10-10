@@ -280,15 +280,17 @@ if eligibility_result["eligible"]:
         audit_result = audit_claim(claim)
 
         review_status = "Passed Checks" if audit_result["status"] == "PASS" else "Needs Review"
+        review_color = "#5DE1BE" if audit_result["status"] == "PASS" else "#F4BF65"
+        audit_summary = "No audit flags" if audit_result["status"] == "PASS" else "Audit findings require human review"
         st.markdown(
             f'<div style="background:#192D3B;border:1px solid #284454;'
             f'border-radius:14px;padding:15px 20px;margin:12px 0;">'
             f'<strong style="color:#F2FAFB;">Claim {selected_claim_id}</strong>'
-            f'<span style="float:right;color:{"#5DE1BE" if audit_result["status"] == "PASS" else "#F4BF65"};'
+            f'<span style="float:right;color:{review_color};'
             f'font-weight:700;">{review_status}</span>'
             f'<div style="color:#A8BDC9;margin-top:8px;">'
             f'✓ Eligibility &amp; policy checks complete · '
-            f'{"✓ No audit flags" if audit_result["status"] == "PASS" else "⚠ Audit findings require human review"}'
+            f'{audit_summary}'
             f'</div></div>',
             unsafe_allow_html=True,
         )
