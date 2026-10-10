@@ -76,6 +76,12 @@ Give:
     # Streamlit Community Cloud secrets can be supplied via OPENAI_API_KEY.
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
+        try:
+            import streamlit as st
+            api_key = st.secrets.get("OPENAI_API_KEY")
+        except (ImportError, FileNotFoundError, KeyError):
+            pass
+    if not api_key:
         raise RuntimeError("OPENAI_API_KEY is not configured for this deployment.")
     client = OpenAI(api_key=api_key)
 
