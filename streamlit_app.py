@@ -28,7 +28,7 @@ st.set_page_config(
 st.markdown("""
 <style>
 .stApp, [data-testid="stAppViewContainer"] {background:#0D1927;color:#EAF4F6;}
-.block-container {padding-top:1.5rem;padding-bottom:3rem;max-width:1200px;}
+.block-container {padding-top:2rem;padding-bottom:3rem;max-width:1100px;}
 .stApp h1,.stApp h2,.stApp h3,.stApp h4 {color:#F2FAFB;font-family:Arial,sans-serif;}
 .stApp p,.stApp label,.stApp span {color:inherit;}
 [data-testid="stMarkdownContainer"] p {color:#E0EBF0;}
@@ -39,8 +39,8 @@ st.markdown("""
 .stButton > button {background:#167C70;color:white;border:1px solid #2AA995;border-radius:10px;font-weight:650;padding:.5rem 1rem;}
 .stButton > button:hover {background:#209A89;color:white;border-color:#5DE1BE;}
 [data-testid="stAlert"] {border-radius:12px;}
-[data-testid="stMetric"] {background:#192D3B;padding:16px;border-radius:14px;border:1px solid #284454;}
-[data-testid="stMetricLabel"],[data-testid="stMetricValue"] {color:#F2FAFB;}
+[data-testid="stMetric"] {background:linear-gradient(135deg,#192D3B,#1B3541);padding:23px 25px;border-radius:17px;border:1px solid #30505D;min-height:124px;}
+[data-testid="stMetricLabel"] {color:#B8CBD3!important;font-size:14px!important;} [data-testid="stMetricValue"] {color:#F2FAFB!important;font-size:35px!important;font-weight:750!important;}
 hr {border-color:#284454;margin:1.3rem 0;}
 .claim-card {background:#192D3B;border:1px solid #284454;border-radius:14px;padding:1.1rem 1rem .8rem;height:100%;box-shadow:0 4px 16px rgba(0,0,0,.12);}
 .claim-card h4 {margin:0 0 .9rem;color:#F2FAFB;font-size:1.08rem;font-weight:700;}
@@ -59,11 +59,11 @@ hr {border-color:#284454;margin:1.3rem 0;}
 
 st.markdown(
     """
-<div style="padding:20px 22px;border-radius:16px;background:#192D3B;border:1px solid #284454;margin-bottom:22px;">
+<div style="padding:20px 22px;border-radius:16px;background:linear-gradient(120deg,#183C43,#192D3B 65%);border:1px solid #32635F;margin-bottom:28px;">
   <div style="display:flex;align-items:center;gap:12px;">
     <span style="font-size:30px;">🛡️</span>
     <div>
-      <h1 style="color:#F2FAFB;margin:0;font-size:30px;">InsureAI Copilot</h1>
+      <h1 style="color:#F2FAFB;margin:0;font-size:35px;">InsureAI Copilot</h1>
       <p style="color:#5DE1BE;margin:5px 0 0;font-size:14px;font-weight:600;">AI Assists. Humans Decide.</p>
     </div>
   </div>
@@ -82,7 +82,8 @@ claim_ids = ["C001", "C002", "C003", "C004", "C005"]
 
 selected_claim_id = st.selectbox(
     "Select a Claim",
-    claim_ids
+    claim_ids,
+    index=claim_ids.index("C003"),
 )
 
 claim_context = get_claim_context(selected_claim_id)
@@ -141,24 +142,31 @@ def summarize_claims(ids):
 
 total_claims, passed_claims, flagged_claims, review_required_claims = summarize_claims(claim_ids)
 
-st.subheader("Claims Overview")
-metric_left, metric_right = st.columns(2)
+st.markdown(
+    '<div style="margin:10px 0 16px;">'
+    '<div style="font-size:12px;letter-spacing:2px;color:#5DE1BE;font-weight:700;">CLAIMS OPERATIONS</div>'
+    '<h2 style="margin:6px 0 4px;color:#F2FAFB;">Dashboard Overview</h2>'
+    '<p style="color:#A8BDC9;">Real-time checks across five synthetic demonstration claims</p>'
+    '</div>',
+    unsafe_allow_html=True,
+)
+metric_left, metric_right = st.columns(2, gap="medium")
 with metric_left:
-    st.metric("Total Claims", total_claims)
+    st.metric("Total Claims", f"{total_claims:02d}")
 with metric_right:
-    st.metric("Passed Checks", passed_claims)
-metric_left, metric_right = st.columns(2)
+    st.metric("Passed Checks", f"{passed_claims:02d}")
+metric_left, metric_right = st.columns(2, gap="medium")
 with metric_left:
-    st.metric("Flagged Claims", flagged_claims)
+    st.metric("Flagged Claims", f"{flagged_claims:02d}")
 with metric_right:
-    st.metric("Review Required", review_required_claims)
+    st.metric("Review Required", f"{review_required_claims:02d}")
 
 st.markdown(
-    '<div style="background:#192D3B;border:1px solid #284454;border-radius:14px;'
-    'padding:16px 20px;margin:12px 0 22px;">'
-    '<div style="font-weight:700;color:#F2FAFB;font-size:18px;">Claim Review</div>'
-    '<div style="color:#A8BDC9;margin-top:7px;">Select a synthetic claim below to see '
-    'eligibility, policy checks, audit findings, retrieved rules and human review.</div>'
+    '<div style="background:linear-gradient(110deg,#183C43,#192D3B);'
+    'border:1px solid #32635F;border-radius:17px;padding:22px 25px;margin:20px 0 20px;">'
+    '<div style="font-size:12px;letter-spacing:1.7px;color:#5DE1BE;font-weight:700;">WORKSPACE</div>'
+    '<div style="font-weight:750;color:#F2FAFB;font-size:23px;margin-top:6px;">Claim Review</div>'
+    '<div style="color:#B9CCD5;margin-top:8px;">Eligibility → Policy → Audit → Evidence → Human Decision</div>'
     '</div>',
     unsafe_allow_html=True,
 )
@@ -167,7 +175,7 @@ st.markdown(
 # CLAIM DETAILS
 # ---------------------------------------------------------
 
-st.subheader("Claim Details")
+st.subheader("Selected Claim Details")
 
 col1, col2, col3 = st.columns(3)
 
@@ -410,7 +418,8 @@ if eligibility_result["eligible"]:
                     )
 
                     st.caption(
-                        f"Technical message: {error}"
+                        "Check the test app’s Streamlit secrets and API access. "
+                        "Do not share API keys in screenshots."
                     )
 
 
