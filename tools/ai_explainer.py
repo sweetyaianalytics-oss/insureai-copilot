@@ -7,9 +7,6 @@ from tools.rule_retriever import retrieve_relevant_rules
 
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY")
-)
 
 def explain_claim_finding(claim, findings):
     """
@@ -74,6 +71,13 @@ Give:
 2. Why human review is needed
 3. A suggested next step for the reviewer
 """
+
+    # Initialize only when requested so the dashboard loads without secrets.
+    # Streamlit Community Cloud secrets can be supplied via OPENAI_API_KEY.
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured for this deployment.")
+    client = OpenAI(api_key=api_key)
 
     response = client.responses.create(
         model="gpt-5-mini",
